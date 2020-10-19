@@ -5,29 +5,17 @@
 ```
 
 >load("/cloud/project/acs2017_ny_data.RData")
-> attach(acs2017_ny)
-> detach(acs2017_ny
-+ )
 > dat_NYC <-subset(acs2017_ny, (acs2017_ny$in_NYC == 1)&(acs2017_ny$AGE > 20) & (acs2017_ny$AGE < 66))
 > attach(dat_NYC)
 > View(acs2017_ny)
 > Travel <- TRANWORK
-
-# I defined TRANWORK as a Travel
-
 > norm_varb <- function(X_in) {
 +     (X_in - min(X_in, na.rm = TRUE))/( max(X_in, na.rm = TRUE) - min(X_in, na.rm = TRUE) )
 + }
-> is.na(TRANWORK) <- which(TRANWORK=0)
-Error in which(TRANWORK = 0) : unused argument (TRANWORK = 0)
 > is.na(TRANTIME) <- which(TRANWORK == 0)
 > is.na(Travel) <- which(Travel == 0)
 > norm_varb(UHRSWORK)
-
 > data_use_prelim <- data.frame(norm_varb(UHRSWORK),FTOTINC)
-
-## I compared TRANWORK ( method of transportation) to hours worked (UHRSWORK) and family total income work hours  (FTOTINC)
-
 > good_obs_data_use <- complete.cases(data_use_prelim,Travel)
 > dat_use <- subset(data_use_prelim,good_obs_data_use)
 
@@ -39,14 +27,13 @@ Error in which(TRANWORK = 0) : unused argument (TRANWORK = 0)
 > test_data <- subset(dat_use,(!select1))
 > cl_data <- y_use[select1]
 > true_data <- y_use[!select1]
-
-
 > summary(cl_data)
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   10.00   10.00   33.00   29.23   33.00   70.00 
 > prop.table(summary(cl_data))
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 0.05399 0.05399 0.17816 0.15780 0.17816 0.37791 
+
 > summary(train_data)
  norm_varb.UHRSWORK.    FTOTINC       
  Min.   :0.0101      Min.   :  -5900  
